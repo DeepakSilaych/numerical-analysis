@@ -101,9 +101,19 @@ The model achieves approximately 92% accuracy on the test set, which is a strong
 
 The loss curves show that the model converges smoothly, with the validation loss closely tracking the training loss. This indicates that the model is not overfitting significantly, which is expected for a linear model with appropriate regularization.
 
+![Loss Function Curve](img/lossfunction.png)
+
 ### 4.3 Error Analysis
 
 The confusion matrix reveals that the model has the most difficulty distinguishing between visually similar digits, such as 4 and 9, or 3 and 8. This is expected given the limitations of a linear model, which cannot capture complex non-linear relationships in the data.
+
+![Confusion Matrix](img/confusionmatrix.png)
+
+### 4.4 Sample Predictions
+
+Below are some sample predictions from the model, showing correctly and incorrectly classified examples:
+
+![Sample Predictions](img/output.png)
 
 ## 5. Numerical Considerations
 
