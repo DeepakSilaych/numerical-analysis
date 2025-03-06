@@ -142,3 +142,40 @@ The implementation includes several optimizations:
 This project demonstrates a successful implementation of a softmax regression classifier for the MNIST dataset using only NumPy. Despite being a relatively simple model, it achieves good performance and provides a solid foundation for understanding more complex machine learning algorithms.
 
 The implementation incorporates several advanced techniques such as L2 regularization, learning rate decay, and early stopping, which are essential for training effective machine learning models. The code is modular, efficient, and well-structured, making it a valuable educational resource for understanding the fundamentals of machine learning.
+
+## 8. Data Files
+
+The MNIST dataset files are included in this repository using Git Large File Storage (Git LFS). When you clone the repository, you'll need to have Git LFS installed to properly download these files:
+
+```bash
+# Install Git LFS
+# For Ubuntu/Debian
+sudo apt-get install git-lfs
+
+# For macOS (using Homebrew)
+brew install git-lfs
+
+# For Windows (using Chocolatey)
+choco install git-lfs
+```
+
+After installing Git LFS, you can clone the repository and pull the data files:
+
+```bash
+# Clone the repository
+git clone https://github.com/DeepakSilaych/numerical-analysis.git
+
+# Navigate to the project directory
+cd numerical-analysis
+
+# Pull LFS files
+git lfs pull
+```
+
+The dataset includes:
+- `data/mnist_train.csv`: Training dataset (60,000 examples)
+- `data/mnist_test.csv`: Test dataset (10,000 examples)
+
+If you encounter any issues with the data files, you can also download them from:
+- [MNIST Dataset on Kaggle](https://www.kaggle.com/datasets/oddrationale/mnist-in-csv)
+- [MNIST Original Dataset](http://yann.lecun.com/exdb/mnist/) (requires conversion to CSV format)
