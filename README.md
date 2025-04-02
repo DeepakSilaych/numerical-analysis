@@ -1,4 +1,136 @@
-# MNIST Digit Classification: Implementation and Analysis Report
+# MNIST Digit Classification with Adam Optimizer
+
+This project implements a multi-class logistic regression classifier for the MNIST handwritten digit dataset using the Adam optimizer. The implementation is done from scratch using only NumPy for numerical operations and Matplotlib for visualization.
+
+## Project Structure
+
+The code is organized into several modules for better modularity:
+
+- `data_prep.py`: Functions for loading, preprocessing, and splitting the MNIST dataset
+- `mnist_model.py`: Core model functionality (softmax, cost function, gradient computation)
+- `optimizers.py`: Adam optimizer implementation
+- `visualize.py`: Functions for visualizing results
+- `train_mnist.py`: Main script for training and evaluating the model
+- `experiment.py`: Script for running experiments with different hyperparameter configurations
+
+## Getting Started
+
+### Prerequisites
+
+The project requires the following dependencies:
+
+- Python 3.6+
+- NumPy
+- Matplotlib
+
+### Running the Code
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd <repository-folder>
+```
+
+2. Make sure the MNIST dataset CSV files are in the `data/` directory:
+
+   - `data/mnist_train.csv`: Training data
+   - `data/mnist_test.csv`: Test data
+
+3. Train and evaluate the model:
+
+```bash
+python train_mnist.py
+```
+
+4. Experiment with different hyperparameters:
+
+```bash
+python experiment.py
+```
+
+## Implementation Details
+
+### Softmax Regression Model
+
+The model implements softmax regression (multinomial logistic regression) with cross-entropy loss. For an input example $x_i \in \mathbb{R}^{784}$, the model computes:
+
+$$z_i = W^T x_i + b$$
+
+where $W \in \mathbb{R}^{784 \times 10}$ is the weight matrix and $b \in \mathbb{R}^{10}$ is the bias vector. The softmax function converts these raw scores into probabilities.
+
+### Adam Optimizer
+
+The Adam optimizer is an extension to stochastic gradient descent that uses adaptive learning rates for each parameter. It combines the benefits of two other extensions: AdaGrad and RMSProp.
+
+Key features of Adam:
+
+- Uses moving averages of the parameters (first moment)
+- Uses moving averages of the squared parameters (second moment)
+- Incorporates bias correction for more accurate estimates
+
+## Results
+
+When trained with the Adam optimizer using appropriate hyperparameters, the model achieves approximately 90-92% accuracy on the test set, which is a good result for a linear model without any feature engineering or deep learning techniques.
+
+## Customization
+
+You can customize the training process by modifying the hyperparameters in `train_mnist.py`:
+
+```python
+hyperparams = {
+    'alpha': 0.05,      # Learning rate
+    'num_iters': 1000,  # Number of iterations
+    'batch_size': 128,  # Batch size
+}
+```
+
+Or you can run experiments with multiple configurations by modifying the `configs` list in `experiment.py`.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Additional Information
+
+### Data Files
+
+The MNIST dataset files are included in this repository using Git Large File Storage (Git LFS). When you clone the repository, you'll need to have Git LFS installed to properly download these files:
+
+```bash
+# Install Git LFS
+# For Ubuntu/Debian
+sudo apt-get install git-lfs
+
+# For macOS (using Homebrew)
+brew install git-lfs
+
+# For Windows (using Chocolatey)
+choco install git-lfs
+```
+
+After installing Git LFS, you can clone the repository and pull the data files:
+
+```bash
+# Clone the repository
+git clone https://github.com/DeepakSilaych/numerical-analysis.git
+
+# Navigate to the project directory
+cd numerical-analysis
+
+# Pull LFS files
+git lfs pull
+```
+
+The dataset includes:
+
+- `data/mnist_train.csv`: Training dataset (60,000 examples)
+- `data/mnist_test.csv`: Test dataset (10,000 examples)
+
+If you encounter any issues with the data files, you can also download them from:
+
+- [MNIST Dataset on Kaggle](https://www.kaggle.com/datasets/oddrationale/mnist-in-csv)
+- [MNIST Original Dataset](http://yann.lecun.com/exdb/mnist/) (requires conversion to CSV format)
 
 ## 1. Introduction
 
@@ -120,6 +252,7 @@ Below are some sample predictions from the model, showing correctly and incorrec
 ### 5.1 Numerical Stability
 
 Several techniques are employed to ensure numerical stability:
+
 - Subtracting the maximum value in the softmax function to prevent overflow
 - Adding a small constant (1e-8) when computing logarithms to prevent underflow
 - Using appropriate scaling for weight initialization
@@ -127,6 +260,7 @@ Several techniques are employed to ensure numerical stability:
 ### 5.2 Computational Efficiency
 
 The implementation includes several optimizations:
+
 - Mini-batch processing to reduce memory requirements
 - Vectorized operations using NumPy for efficient computation
 - Early stopping to reduce unnecessary computation
@@ -183,9 +317,11 @@ git lfs pull
 ```
 
 The dataset includes:
+
 - `data/mnist_train.csv`: Training dataset (60,000 examples)
 - `data/mnist_test.csv`: Test dataset (10,000 examples)
 
 If you encounter any issues with the data files, you can also download them from:
+
 - [MNIST Dataset on Kaggle](https://www.kaggle.com/datasets/oddrationale/mnist-in-csv)
 - [MNIST Original Dataset](http://yann.lecun.com/exdb/mnist/) (requires conversion to CSV format)
