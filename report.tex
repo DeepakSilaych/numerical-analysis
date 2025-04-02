@@ -48,11 +48,11 @@ Mumbai, India}
 \maketitle
 
 \begin{abstract}
-This paper presents an implementation of multiclass classification using softmax regression applied to the MNIST handwritten digit dataset. We develop a complete pipeline for data loading, preprocessing, model training with mini-batch gradient descent, and evaluation. Our implementation incorporates key techniques such as regularization, learning rate decay, and early stopping to enhance model performance. The results demonstrate the effectiveness of softmax regression for digit classification, achieving competitive accuracy rates while maintaining computational efficiency. We analyze model performance through multiple evaluation metrics, including confusion matrices and example predictions. Our findings highlight both the strengths and limitations of linear classification methods for image recognition tasks.
+This paper presents an implementation of multiclass classification using softmax regression applied to the MNIST handwritten digit dataset. We develop a complete pipeline for data loading, preprocessing, model training with the Adam optimizer, and evaluation. Our implementation incorporates key techniques such as regularization, learning rate decay, and early stopping to enhance model performance. The results demonstrate the effectiveness of softmax regression for digit classification, achieving competitive accuracy rates while maintaining computational efficiency. We analyze model performance through multiple evaluation metrics, including confusion matrices and example predictions. Our findings highlight both the strengths and limitations of linear classification methods for image recognition tasks.
 \end{abstract}
 
 \begin{IEEEkeywords}
-MNIST, softmax regression, multiclass classification, machine learning, gradient descent, early stopping
+MNIST, softmax regression, multiclass classification, machine learning, Adam optimizer, early stopping
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -61,20 +61,13 @@ Handwritten digit recognition remains a fundamental benchmark problem in compute
 In this paper, we implement a multiclass logistic regression classifier using the softmax activation function, commonly known as softmax regression. We apply this approach to the MNIST dataset and develop a complete pipeline that includes data loading, preprocessing, model training, and evaluation. Our implementation incorporates several optimization techniques:
 
 \begin{itemize}
-    \item Mini-batch gradient descent for efficient training
+    \item Adam optimizer for efficient training
     \item L2 regularization to prevent overfitting
-    \item Learning rate decay for improved convergence
+    \item Learning rate adaptation for improved convergence
     \item Early stopping based on validation performance
 \end{itemize}
 
 We provide a detailed analysis of the model's performance through various evaluation metrics, including accuracy, confusion matrices, and visualizations of example predictions. Our work demonstrates the effectiveness of softmax regression for digit classification and provides insights into the strengths and limitations of linear classification methods for image recognition tasks.
-
-\section{Related Work}
-Logistic regression has been extensively studied for binary classification problems and has been extended to multiclass classification through various techniques, including one-vs-all approaches and softmax regression \cite{bishop2006pattern}. The MNIST dataset, introduced by LeCun et al. \cite{lecun1998gradient}, has served as a standard benchmark for evaluating classification algorithms.
-
-Early work on the MNIST dataset employed various machine learning techniques, including support vector machines (SVMs) \cite{cortes1995support}, k-nearest neighbors (k-NN) \cite{cover1967nearest}, and neural networks \cite{lecun1998gradient}. While deep learning approaches have achieved state-of-the-art performance on MNIST, with convolutional neural networks (CNNs) reaching accuracies above 99\% \cite{ciresan2012multi}, simpler methods such as logistic regression continue to provide valuable baselines and insights.
-
-Several studies have explored the use of regularization techniques \cite{ng2004feature}, learning rate schedules \cite{bottou2012stochastic}, and early stopping criteria \cite{prechelt1998early} to improve the performance of gradient-based optimization methods. Our work builds upon these approaches by implementing a comprehensive pipeline that incorporates these techniques for softmax regression on the MNIST dataset.
 
 \section{Methodology}
 \subsection{Problem Formulation}
@@ -105,21 +98,16 @@ To prevent overfitting, we add L2 regularization to the loss function:
 where $m$ is the number of training examples, and $\lambda$ is the regularization parameter.
 
 \subsection{Optimization}
-We use mini-batch gradient descent to optimize the parameters $\mathbf{w}$ and $\mathbf{b}$. The gradients of the loss function with respect to the parameters are:
+We use the Adam optimizer to optimize the parameters \(\mathbf{w}\) and \(\mathbf{b}\). Adam is an adaptive learning rate optimization algorithm that's been designed specifically for training deep neural networks. It combines the advantages of two other extensions of stochastic gradient descent: AdaGrad and RMSProp.
 
-\begin{align}
-\nabla_{\mathbf{w}_k} \mathcal{J} &= \frac{1}{m} \sum_{i=1}^{m} (P(y = k | \mathbf{x}^{(i)}) - y_k^{(i)}) \mathbf{x}^{(i)} + \frac{\lambda}{m} \mathbf{w}_k \\
-\nabla_{b_k} \mathcal{J} &= \frac{1}{m} \sum_{i=1}^{m} (P(y = k | \mathbf{x}^{(i)}) - y_k^{(i)})
-\end{align}
-
-We update the parameters using the following rules:
+The update rules for the parameters are:
 
 \begin{align}
 \mathbf{w}_k &\leftarrow \mathbf{w}_k - \alpha \nabla_{\mathbf{w}_k} \mathcal{J} \\
 b_k &\leftarrow b_k - \alpha \nabla_{b_k} \mathcal{J}
 \end{align}
 
-where $\alpha$ is the learning rate.
+where \(\alpha\) is the learning rate.
 
 \subsection{Implementation Details}
 Our implementation includes the following components:
@@ -129,7 +117,7 @@ Our implementation includes the following components:
     
     \item \textbf{One-Hot Encoding:} We convert the class labels to one-hot encoded vectors for training.
     
-    \item \textbf{Mini-Batch Gradient Descent:} We implement mini-batch gradient descent with a batch size of 256.
+    \item \textbf{Adam Optimizer:} We implement the Adam optimizer for efficient training.
     
     \item \textbf{Learning Rate Decay:} We use an exponential decay schedule for the learning rate to improve convergence.
     
@@ -143,7 +131,7 @@ Our implementation includes the following components:
 We use the MNIST dataset, which consists of 60,000 training images and 10,000 test images of handwritten digits. Each image is a 28×28 grayscale image, represented as a vector of 784 features (pixel values). We further split the training set into 54,000 training examples and 6,000 validation examples.
 
 \subsection{Preprocessing}
-We normalize the pixel values to the range [0, 1] by dividing by 255. This normalization helps improve the convergence of the gradient descent algorithm.
+We normalize the pixel values to the range [0, 1] by dividing by 255. This normalization helps improve the convergence of the optimization algorithm.
 
 \subsection{Hyperparameters}
 We use the following hyperparameters for our experiments:
@@ -169,7 +157,7 @@ Fig. 1 shows the training and validation loss over the course of training. The l
 \end{figure}
 
 \subsection{Classification Performance}
-Our model achieves an accuracy of approximately 92.5\% on the validation set and 92.37\% on the test set. Table I shows the detailed results of our classification performance.
+Our model achieves an accuracy of approximately 92.5\% on the validation set and 92.37\% on the test set using the Adam optimizer. Table I shows the detailed results of our classification performance.
 
 \begin{table}[htbp]
 \caption{Classification Performance}
@@ -238,7 +226,7 @@ Our implementation consists of the following key components:
     
     \item \textbf{Model Implementation:} Functions for softmax activation, cost computation, and gradient calculation.
     
-    \item \textbf{Training Procedure:} Implementation of mini-batch gradient descent with learning rate decay and early stopping.
+    \item \textbf{Training Procedure:} Implementation of the Adam optimizer with learning rate adaptation and early stopping.
     
     \item \textbf{Evaluation:} Functions for computing accuracy, generating confusion matrices, and visualizing predictions.
 \end{itemize}
@@ -291,16 +279,22 @@ def compute_gradient(X, y, w, b, lambda_=0):
 \end{lstlisting}
 
 \subsection{Gradient Descent with Early Stopping}
-The training procedure, including mini-batch gradient descent, learning rate decay, and early stopping, is implemented as follows:
+The training procedure, including the Adam optimizer, mini-batch processing, and early stopping, is implemented as follows:
 
 \begin{lstlisting}[language=Python]
-def gradient_descent(X, y, X_val, y_val, w_in, b_in, cost_function, gradient_function, 
-                    alpha, num_iters, batch_size, lambda_, patience=5, min_delta=0.001,
-                    decay_rate=0.95, decay_steps=100):
+def adam_optimizer(X, y, X_val, y_val, w_in, b_in, cost_function, gradient_function, 
+                  alpha, num_iters, batch_size, lambda_, beta1=0.9, beta2=0.999,
+                  epsilon=1e-8, patience=5, min_delta=0.001):
     m = X.shape[0]
     J_history = []
     val_history = []
     w_history = []
+    
+    # Initialize Adam parameters
+    v_dw = np.zeros_like(w_in)
+    v_db = np.zeros_like(b_in)
+    s_dw = np.zeros_like(w_in)
+    s_db = np.zeros_like(b_in)
     
     best_val_cost = float('inf')
     best_w = None
@@ -308,19 +302,36 @@ def gradient_descent(X, y, X_val, y_val, w_in, b_in, cost_function, gradient_fun
     patience_counter = 0
     
     for i in range(num_iters):
-        current_alpha = alpha * (decay_rate ** (i // decay_steps))
-        
         indices = np.random.permutation(m)
         X_shuffled = X[indices]
         y_shuffled = y[indices]
         
         for j in range(0, m, batch_size):
+            t = i * (m // batch_size) + (j // batch_size) + 1
+            
             X_batch = X_shuffled[j:j+batch_size]
             y_batch = y_shuffled[j:j+batch_size]
             
+            # Compute gradients
             dj_db, dj_dw = gradient_function(X_batch, y_batch, w_in, b_in, lambda_)
-            w_in -= current_alpha * dj_dw
-            b_in -= current_alpha * dj_db
+            
+            # Update momentum
+            v_dw = beta1 * v_dw + (1 - beta1) * dj_dw
+            v_db = beta1 * v_db + (1 - beta1) * dj_db
+            
+            # Update RMSprop
+            s_dw = beta2 * s_dw + (1 - beta2) * np.square(dj_dw)
+            s_db = beta2 * s_db + (1 - beta2) * np.square(dj_db)
+            
+            # Bias correction
+            v_dw_corrected = v_dw / (1 - beta1**t)
+            v_db_corrected = v_db / (1 - beta1**t)
+            s_dw_corrected = s_dw / (1 - beta2**t)
+            s_db_corrected = s_db / (1 - beta2**t)
+            
+            # Update parameters
+            w_in -= alpha * (v_dw_corrected / (np.sqrt(s_dw_corrected) + epsilon))
+            b_in -= alpha * (v_db_corrected / (np.sqrt(s_db_corrected) + epsilon))
         
         cost = cost_function(X, y, w_in, b_in, lambda_)
         J_history.append(cost)
@@ -330,8 +341,9 @@ def gradient_descent(X, y, X_val, y_val, w_in, b_in, cost_function, gradient_fun
         
         if i % (num_iters // 10) == 0 or i == num_iters - 1:
             w_history.append(w_in)
-            print(f"Iteration {i:4}: Cost {cost:.4f}, Val Cost {val_cost:.4f}, Alpha {current_alpha:.6f}")
+            print(f"Iteration {i:4}: Cost {cost:.4f}, Val Cost {val_cost:.4f}")
         
+        # Early stopping
         if val_cost < best_val_cost - min_delta:
             best_val_cost = val_cost
             best_w = w_in.copy()
@@ -351,7 +363,7 @@ def gradient_descent(X, y, X_val, y_val, w_in, b_in, cost_function, gradient_fun
 \end{lstlisting}
 
 \section{Conclusion}
-In this paper, we presented a complete implementation of softmax regression for classifying handwritten digits in the MNIST dataset. Our approach incorporated mini-batch gradient descent with L2 regularization, learning rate decay, and early stopping. Through detailed evaluation, we demonstrated the effectiveness of softmax regression for digit classification and analyzed its performance characteristics.
+In this paper, we presented a complete implementation of softmax regression for classifying handwritten digits in the MNIST dataset. Our approach incorporated the Adam optimizer, mini-batch processing, learning rate adaptation, and early stopping. Through detailed evaluation, we demonstrated the effectiveness of softmax regression for digit classification and analyzed its performance characteristics.
 
 The experimental results show that:
 \begin{itemize}
